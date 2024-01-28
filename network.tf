@@ -97,7 +97,7 @@ resource "aws_route_table" "private_subnet_route_tables" {
   vpc_id = aws_vpc.vpn_vpc.id
 
   route {
-    cidr_block     = element(var.private_subnet_cidr_blocks, count.index)
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = element(aws_nat_gateway.nat_gateway[*].id, count.index)
   }
 
