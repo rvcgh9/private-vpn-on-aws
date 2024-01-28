@@ -83,7 +83,7 @@ resource "aws_eip" "nat_gateway_ip" {
 resource "aws_nat_gateway" "nat_gateway" {
   count = length(var.private_subnet_cidr_blocks)
 
-  subnet_id     = element(var.public_subnet_cidr_blocks, count.index)
+  subnet_id     = element(aws_subnet.public_subnets[*].id, count.index)
   allocation_id = element(aws_eip.nat_gateway_ip[*].id, count.index)
 
   tags = {
