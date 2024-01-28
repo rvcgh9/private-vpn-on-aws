@@ -84,7 +84,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   count = length(var.private_subnet_cidr_blocks)
 
   subnet_id     = element(var.public_subnet_cidr_blocks, count.index)
-  allocation_id = element(aws_eip.nat_gateway_ip, count.index)
+  allocation_id = element(aws_eip.nat_gateway_ip[*].id, count.index)
 
   tags = {
     "Name"    = "${var.project_name}-nat-gateway-${count.index}"
