@@ -92,7 +92,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   }
 }
 
-resource "aws_route_table" "private_subnet_route_table" {
+resource "aws_route_table" "private_subnet_route_tables" {
   count  = length(var.private_subnet_cidr_blocks)
   vpc_id = aws_vpc.vpn_vpc.id
 
@@ -110,5 +110,5 @@ resource "aws_route_table" "private_subnet_route_table" {
 resource "aws_route_table_association" "private_route_table_association" {
   count          = length(var.private_subnet_cidr_blocks)
   subnet_id      = element(aws_subnet.private_subnets[*].id, count.index)
-  route_table_id = aws_route_table.private_subnet_route_table.id
+  route_table_id = element(aws_route_table.private_subnet_route_tables[*].id, count.index)
 }
